@@ -70,7 +70,7 @@ Err_norm = (abs(M-M_filtered).^2)./(abs(M).^2)*100;
 Err_norm(not(CFmask)) = NaN; % Hack! Do not count this cells!
 
 subplot(224); plot_me(X,Y,Err_norm); view(3); title('Error [\%]');
-print('figures/Test_compactFilters2d','-dpng');
+print(['figures/Test_',CF.name,'2d'],'-dpng');
 
 %% Visualization tool
 function plot_me(x,y,data)
