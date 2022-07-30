@@ -47,8 +47,8 @@ methods
                 general = @(N) obj.AllpossibleNonZeroElements(P,N);
         case 'TaylorFilterWithBoundaries'
                 filter = @obj.buildHighPassFilterWithBoundaries;
-                mask_filter = obj.extendMaskHoles(mask_holes,P,obj.Size);
-                %mask_filter = mask_holes;
+                %mask_filter = obj.extendMaskHoles(mask_holes,P,obj.Size);
+                mask_filter = mask_holes;
                 general = @(N) obj.AllpossibleNonZeroElements(max(7,P),N);
         otherwise
                 disp("Schemes available: ");
