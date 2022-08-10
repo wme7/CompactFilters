@@ -38,11 +38,15 @@ mask_holes = not(mask);
 M = 100 + 160*membrane(1,(nx-1)/2);
 M(mask_holes) = NaN; % Hack! Do not touch this cells!
 
-% Load a high-pass filter
+% Build a low-pass filter
 CF = compactFiltersWithHoles('TaylorFilter',[nx,ny],mask_holes,order);
-Fx = CF.filter_x; % Low-pass filter
-Fy = CF.filter_y; % Low-pass filter
-CFmask = not(CF.Mask);
+CF2 = compactFiltersWithHoles('TaylorFilterWithBoundaries',[nx,ny],mask_holes,order);
+Fy = CF.filter_y; % Low-pass filter (w/out boundaries)
+Fx = CF2.filter_x; % Low-pass filter (with boundaries)
+Flrt = Fy*Fx;
+%Flrt = Fx*Fy; <-- OPERATOR ORDER IS IMPORTANT!
+CFmask = not(CF.Mask) & not(CF2.Mask);
+CFname = 'TaylorFilterCombined';
 
 % Visualize original M-array
 subplot(221); plot_me(X,Y,M); view(3); title('Original $f(x,y)$');
@@ -57,9 +61,8 @@ M_noisy = M + Amp*(cos(pi*X/dx(1)) + cos(pi*Y/dy(1))); % Both directions
 % Visualize original M-array
 subplot(222); plot_me(X,Y,M_noisy); view(3); title('Noised $f(x,y)$');
 
-% Apply filter
-%tic; M_filtered = Fx*Fy*M_noisy(:); toc
-tic; M_filtered = Fy*Fx*M_noisy(:); toc
+% Apply filter 
+tic; M_filtered = Flrt*M_noisy(:); toc
 M_filtered = reshape(M_filtered,[ny,nx]);
 
 % Visualize original M-array
@@ -70,7 +73,8 @@ Err_norm = (abs(M-M_filtered).^2)./(abs(M).^2)*100;
 Err_norm(not(CFmask)) = NaN; % Hack! Do not count this cells!
 
 subplot(224); plot_me(X,Y,Err_norm); view(3); title('Error [\%]');
-print(['figures/Test_',CF.name,'2d'],'-dpng');
+%print(['figures/Test_',CF.name,'2d'],'-dpng');
+print(['figures/Test_',CFname,'2d'],'-dpng');
 
 %% Visualization tool
 function plot_me(x,y,data)

@@ -13,7 +13,8 @@ Using Matlab, these filters are here implemented as matrix operators suitable fo
 |  Test  |  Direct Explicit Filter |  Explicit Filter Operator |
 |:------:|:-----------------------:|:-------------------------:|
 |   2D   | ![Test2D_explicit](.figure/../figures/Test_explicitFilters2d.png) | ![Test2D_compact](.figure/../figures/Test_TaylorFilter2d.png) |
-|  2D+BC |   | ![Test2D_compact](.figure/../figures/Test_TaylorFilterWithBoundaries2d.png) |
+|  2D+xyBC |  (not implemented)  | ![Test2D_compact](.figure/../figures/Test_TaylorFilterWithBoundaries2d.png) |
+|  2D+xBC |  (not implemented)  | ![Test2D_compact](.figure/../figures/Test_TaylorFilterCombined2d.png) |
 
 ## References
 - Bogey, C., & Bailly, C. (2004). A family of low dispersive and low dissipative explicit schemes for flow and noise computations. Journal of Computational physics, 194(1), 194-214.
